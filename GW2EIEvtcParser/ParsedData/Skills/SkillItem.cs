@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using GW2EIEvtcParser.EIData;
 using GW2EIEvtcParser.ParserHelpers;
@@ -1338,6 +1339,9 @@ namespace GW2EIEvtcParser.ParsedData
         public bool UnknownSkill => Name == DefaultName;
 
         // Constructor
+
+        [Obsolete("Dont use this, testing only")] //TODO(Rennorb) @cleanup
+        public SkillItem(bool swap) { ID = swap ? WeaponSwap : default; }
 
         internal SkillItem(long ID, string name, GW2APIController apiController)
         {

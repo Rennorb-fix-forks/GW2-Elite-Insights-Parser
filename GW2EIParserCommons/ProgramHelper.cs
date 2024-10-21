@@ -287,7 +287,7 @@ namespace GW2EIParserCommons
             Thread.CurrentThread.CurrentCulture =
                     new System.Globalization.CultureInfo("en-US");
             operation.Reset();
-            try
+            //try
             {
                 operation.Start();
                 var fInfo = new FileInfo(operation.InputFile);
@@ -329,15 +329,15 @@ namespace GW2EIParserCommons
                 //Creating File
                 GenerateFiles(log, operation, uploadStrings, fInfo);
             }
-            catch (Exception ex)
-            {
-                throw new ProgramException(ex);
-            }
-            finally
-            {
-                operation.Stop();
-                Thread.CurrentThread.CurrentCulture = before;
-            }
+            //catch (Exception ex)
+            //{
+            //    throw new ProgramException(ex);
+            //}
+            //finally
+            //{
+            //    operation.Stop();
+            //    Thread.CurrentThread.CurrentCulture = before;
+            //}
         }
 
         private static void CompressFile(string file, MemoryStream str, OperationController operation)
