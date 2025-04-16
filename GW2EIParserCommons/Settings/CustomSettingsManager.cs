@@ -126,10 +126,7 @@ public static class CustomSettingsManager
         }
     }
 
-    /// <summary>
-    /// Returns current program settings
-    /// </summary>
-    /// <returns></returns>
+    /// <summary>Returns current program settings</summary>
     public static ProgramSettings GetProgramSettings()
     {
         var settings = new ProgramSettings()
@@ -144,6 +141,7 @@ public static class CustomSettingsManager
             SaveOutHTML = Properties.Settings.Default.SaveOutHTML,
             SaveOutXML = Properties.Settings.Default.SaveOutXML,
             SaveOutJSON = Properties.Settings.Default.SaveOutJSON,
+            SaveOutProtobuf = Properties.Settings.Default.SaveOutProtobuf,
             SaveOutTrace = Properties.Settings.Default.SaveOutTrace,
             ParseMultipleLogs = Properties.Settings.Default.ParseMultipleLogs,
             SingleThreaded = Properties.Settings.Default.SingleThreaded,

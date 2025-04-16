@@ -240,35 +240,42 @@ function mainLoad() {
     });
 };
 
-window.onload = function () {
+
+
+window.onload = function() {
     Vue.config.devtools = true;
-    // trick from
-    var imgOfficialAPI = document.createElement("img");
-    imgOfficialAPI.style.display = "none";
-    document.body.appendChild(imgOfficialAPI);
-    imgOfficialAPI.onload = function () {
-        console.info("Info: GW2 Render service available");
-        mainLoad();
-        document.body.removeChild(imgOfficialAPI);
-    };
-    imgOfficialAPI.onerror = function () {
-        apiRenderServiceOkay = false;      
-        document.body.removeChild(imgOfficialAPI);
-        var imgDarthmaim = document.createElement("img");
-        imgDarthmaim.style.display = "none";
-        imgDarthmaim.onload = function () {
-            console.warn("Warning: GW2 Render service unavailable, switching to https://icons-gw2.darthmaim-cdn.com");
-            useDarthmaim = true;
-            mainLoad();
-            document.body.removeChild(imgDarthmaim);
+
+    var apiResolverPromise = new Promise(function(resolve, reject) {
+        var imgOfficialAPI = document.createElement("img");
+        imgOfficialAPI.style.display = "none";
+        document.body.appendChild(imgOfficialAPI);
+        imgOfficialAPI.onload = function () {
+            console.info("Info: GW2 Render service available");
+            document.body.removeChild(imgOfficialAPI);
+            resolve();
         };
-        imgDarthmaim.onerror = function() {
-            console.warn("Warning: GW2 Render service unavailable, switching to https://assets.gw2dat.com");
-            useDarthmaim = false;
-            mainLoad();
-            document.body.removeChild(imgDarthmaim);
-        }
-        imgDarthmaim.src = "https://icons-gw2.darthmaim-cdn.com/2FA9DF9D6BC17839BBEA14723F1C53D645DDB5E1/102852.png";
-    };
-    imgOfficialAPI.src = "https://render.guildwars2.com/file/2FA9DF9D6BC17839BBEA14723F1C53D645DDB5E1/102852.png";
+        imgOfficialAPI.onerror = function () {
+            apiRenderServiceOkay = false;      
+            document.body.removeChild(imgOfficialAPI);
+            var imgDarthmaim = document.createElement("img");
+            imgDarthmaim.style.display = "none";
+            imgDarthmaim.onload = function () {
+                console.warn("Warning: GW2 Render service unavailable, switching to https://icons-gw2.darthmaim-cdn.com");
+                useDarthmaim = true;
+                document.body.removeChild(imgDarthmaim);
+                resolve();
+            };
+            imgDarthmaim.onerror = function() {
+                console.warn("Warning: GW2 Render service unavailable, switching to https://assets.gw2dat.com");
+                useDarthmaim = false;
+                document.body.removeChild(imgDarthmaim);
+                resolve();
+            }
+            imgDarthmaim.src = "https://icons-gw2.darthmaim-cdn.com/2FA9DF9D6BC17839BBEA14723F1C53D645DDB5E1/102852.png";
+        };
+        imgOfficialAPI.src = "https://render.guildwars2.com/file/2FA9DF9D6BC17839BBEA14723F1C53D645DDB5E1/102852.png";
+    });
+
+    Promise.all([apiResolverPromise, dataResolverPromise])
+        .then(() => mainLoad())
 }

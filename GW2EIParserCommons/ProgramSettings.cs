@@ -16,6 +16,7 @@ public class ProgramSettings
     public bool SaveOutHTML { get; set; } = true;
     public bool SaveOutXML { get; set; } = false;
     public bool SaveOutJSON { get; set; } = false;
+    public bool SaveOutProtobuf { get; set; } = false; // TODO(Rennorb) @UI
     public bool SaveOutTrace { get; set; } = false;
     // Multi threading
     public bool ParseMultipleLogs { get; set; } = false;
@@ -72,7 +73,7 @@ public class ProgramSettings
 
     public bool HasFormat()
     {
-        return SaveOutCSV || SaveOutHTML || SaveOutXML || SaveOutJSON;
+        return SaveOutCSV || SaveOutHTML || SaveOutXML || SaveOutJSON || SaveOutProtobuf;
     }
 
     public bool DoParseMultipleLogs()

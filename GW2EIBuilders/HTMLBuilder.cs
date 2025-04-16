@@ -155,12 +155,6 @@ public class HTMLBuilder
         return (external, cdn);
     }
 
-    /// <summary>
-    /// Create the damage taken distribution table for a given player
-    /// </summary>
-    /// <param name="p"></param>
-    /// <param name="phaseIndex"></param>
-
     public void CreateHTML(StreamWriter sw, string? path)
     {
         using var _t = new AutoTrace("Create HTML (write to stream)");
@@ -181,12 +175,23 @@ public class HTMLBuilder
         _log.UpdateProgressWithCancellationCheck("HTML: building Combat Replay JS");
         html.Replace("<!--${CombatReplayJS}-->", BuildCombatReplayJS(externalPath, cdnPath));
         html.Replace("<!--${HealingExtensionJS}-->", BuildHealingExtensionJS(externalPath, cdnPath));
+        html.Replace("<!--${protoDecompressor}-->", Properties.Resources.proto_js);
 
         var logData = LogDataDto.BuildLogData(_log, _cr, _light, _parserVersion, _uploadLink);
         _t.Log("built log data");
         //NOTE(Rennoeb): json last, because its large
         string json = JsonSerializer.Serialize(logData, LogDataDtoSerializerContext.Default.LogDataDto);
         _t.Log("Serialized JSON");
+
+        //using(var s = File.OpenWrite("F:\\tmp\\test_out\\000_test.json"))
+        //using(var w = new StreamWriter(s, Encoding.UTF8))
+        //    { w.Write(json); }
+
+        var b = File.ReadAllBytes("F:\\tmp\\test_out\\002_test_stats.binpb");
+        var c = Convert.ToBase64String(b);
+        html.Replace("${logDataProtobuf}", c);
+
+
 
         html.Replace("'${logDataJson}'", _compressJson ? ("'" + CompressAndBase64(json) + "'") : json);
         _t.Log("appended JSON");

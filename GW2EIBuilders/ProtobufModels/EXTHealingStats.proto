@@ -1,0 +1,79 @@
+edition = "2023";
+package GW2EIBuilders.Protobuf.EXT.HealingStats;
+
+
+option optimize_for = LITE_RUNTIME;
+
+
+message HealingStats {
+    repeated Phase         healingPhases        = 1;
+    repeated PlayerDetails playerHealingDetails = 2;
+    repeated PlayerChart   playerHealingCharts  = 3; //TODO(ennorb): this might be wrong 
+}
+
+
+message Phase {
+    repeated Int32L  outgoingHealingStats        = 1;
+    repeated Int32LL outgoingHealingStatsTargets = 2;
+    repeated Int32L  incomingHealingStats        = 3;
+}
+
+
+message PlayerDetails {
+    repeated HealingDistribution  healingDistributions         = 1;
+    repeated HealingDistributionL healingDistributionsTargets  = 2;
+    repeated HealingDistribution  incomingHealingDistributions = 3;
+    repeated PlayerDetails        minions                      = 4;
+
+    message HealingDistribution {
+        int64 contributedHealing       = 1;
+        int64 contributedDownedHealing = 2;
+        int64 totalHealing             = 3;
+        int64 totalCasting             = 4;
+        repeated HealingDistributionItem distribution = 5;
+    }
+
+    message HealingDistributionItem {
+        bool  __isIndirect                  =  1;
+        int64 __skillId                     =  2;
+        int32 __totalHealing                =  3;
+        int32 __minHealing                  =  4;
+        int32 __maxHealing                  =  5;
+        int32 __numberOfCasts               =  6;
+        float __timeWasted                  =  7;
+        float __timeSaved                   =  8;
+        int32 __hits                        =  9;
+        int64 __timeSpentCasting            = 10;
+        int32 __totaldownedhealing          = 11;
+        int64 __minTimeSpentCasting         = 12;
+        int64 __maxTimeSpentCasting         = 13;
+        int64 __timeSpentCastingNoInterrupt = 14;
+        int32 __numberOfCastNoInterrupt     = 15;
+    }
+
+    message HealingDistributionL {
+        repeated HealingDistribution __inner = 1;
+    }
+}
+
+message PlayerChart {
+    PlayerDamageChart_int healing                = 1;
+    PlayerDamageChart_int healingPowerHealing    = 2;
+    PlayerDamageChart_int conversionBasedHealing = 3;
+}
+
+message PlayerDamageChart_int {
+    repeated Int32L targets = 1;
+    repeated int32  total   = 2;
+    repeated int32  taken   = 3;
+}
+
+
+
+//TODO(Rennorb): find a better solution for nested arrays
+message Int32L {
+    repeated int32 __inner = 1;
+}
+message Int32LL {
+    repeated Int32L __inner = 1;
+}

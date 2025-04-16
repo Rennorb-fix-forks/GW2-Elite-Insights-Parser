@@ -528,6 +528,18 @@ public sealed class ProgramHelper : IDisposable
                 operation.UpdateProgressWithCancellationCheck("Program: XML created");
             }
         }
+        if (Settings.SaveOutProtobuf)
+        {
+            using var _t1 = new AutoTrace("Generate Protobuf");
+            operation.UpdateProgressWithCancellationCheck("Program: Creating Protobuf");
+            string outputFile = Path.Combine(saveDirectory.FullName, $"{fName}.protomsg");
+                
+            //builder.CreateJSON(str); //TODO
+
+            operation.AddFile(outputFile);
+
+            operation.UpdateProgressWithCancellationCheck("Program: Protobuf created");
+        }
         operation.UpdateProgressWithCancellationCheck($"Completed for {result}ed {log.FightData.Logic.Extension}");
     }
 }

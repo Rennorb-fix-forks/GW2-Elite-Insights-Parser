@@ -185,6 +185,18 @@ public sealed partial class Settings : global::System.Configuration.ApplicationS
             this["SaveOutJSON"] = value;
         }
     }
+
+    [global::System.Configuration.UserScopedSettingAttribute()]
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+    [global::System.Configuration.DefaultSettingValueAttribute("False")]
+    public bool SaveOutProtobuf {
+        get {
+            return ((bool)(this["SaveOutProtobuf"]));
+        }
+        set {
+            this["SaveOutProtobuf"] = value;
+        }
+    }
     
     [global::System.Configuration.UserScopedSettingAttribute()]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]

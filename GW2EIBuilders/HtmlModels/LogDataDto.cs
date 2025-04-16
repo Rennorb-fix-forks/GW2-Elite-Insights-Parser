@@ -525,12 +525,16 @@ internal class LogDataDto
         if (log.CombatData.HasEXTHealing)
         {
             log.UpdateProgressWithCancellationCheck("HTML: building Healing Extension");
-            logData.HealingStatsExtension = new HealingStatsExtension(log, usedSkills, usedBuffs);
-            if (log.CombatData.HasEXTBarrier)
-            {
-                log.UpdateProgressWithCancellationCheck("HTML: building Barrier Extension");
-                logData.BarrierStatsExtension = new BarrierStatsExtension(log, usedSkills, usedBuffs);
-            }
+            //logData.HealingStatsExtension = new HealingStatsExtension(log, usedSkills, usedBuffs);
+            using var s = File.OpenWrite("F:\\tmp\\test_out\\002_test_stats.binpb");
+            GW2EIBuilders.ProtobufBuilder.WriteTo(s, log, usedSkills, usedBuffs);
+
+
+            //if (log.CombatData.HasEXTBarrier) // TODO restore
+            //{
+            //    log.UpdateProgressWithCancellationCheck("HTML: building Barrier Extension");
+            //    logData.BarrierStatsExtension = new BarrierStatsExtension(log, usedSkills, usedBuffs);
+            //}
         }
         _t.Log("built healing data");
         

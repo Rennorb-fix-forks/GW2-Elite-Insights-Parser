@@ -287,7 +287,7 @@ namespace GW2EIBuilders.Properties {
         ///&quot;use strict&quot;;
         ///
         ///function healingGraphTypeEnumToString(mode, healingMode) {
-        ///    var name = &quot;&quot;;
+        ///    let name = &quot;&quot;;
         ///    switch (mode) {
         ///        case GraphType.DPS:
         ///            name = healingMode === HealingType.Barrier ? &quot;BPS&quot; : &quot;HPS&quot;;
@@ -312,7 +312,7 @@ namespace GW2EIBuilders.Properties {
         ///    TEMPLATE_HEALING_EXT_COMPILE
         ///};
         ///
-        ///var healingGraphComponent = {
+        ///const healingGraphComponent = {
         ///    data: function() {
         ///        return {     
         ///            graphhealingdata: {
@@ -328,7 +328,7 @@ namespace GW2EIBuilders.Properties {
         ///    All: 0,
         ///    HealingPower: 1,
         ///    Conversion: 2,
-        ///    H [rest of string was truncated]&quot;;.
+        ///    [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string healingExtGlobals {
             get {
@@ -376,6 +376,29 @@ namespace GW2EIBuilders.Properties {
         internal static string mixins {
             get {
                 return ResourceManager.GetString("mixins", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to /*eslint-disable block-scoped-var, id-length, no-control-regex, no-magic-numbers, no-prototype-builtins, no-redeclare, no-shadow, no-var, sort-vars*/
+        ///(function($protobuf) {
+        ///    &quot;use strict&quot;;
+        ///
+        ///    const $Reader = $protobuf.Reader, $util = $protobuf.util;
+        ///    
+        ///    const $root = $protobuf.roots[&quot;default&quot;] || ($protobuf.roots[&quot;default&quot;] = {});
+        ///    
+        ///    export const GW2EIBuilders = $root.GW2EIBuilders = (() =&gt; {
+        ///    
+        ///        const GW2EIBuilders = {};
+        ///    
+        ///        GW2EIBuilders.Protobuf = (function() {
+        ///    
+        ///      [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string proto_js {
+            get {
+                return ResourceManager.GetString("proto_js", resourceCulture);
             }
         }
         

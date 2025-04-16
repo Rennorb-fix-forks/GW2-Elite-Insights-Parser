@@ -22,6 +22,7 @@ internal class EXTHealingStatsPhaseDto
 
 
     // helper methods
+    //TODO(Rennorb) @cleanup
 
     private static HealingStatItem GetOutgoingHealingStatData(EXTFinalOutgoingHealingStat outgoingHealingStats)
     {

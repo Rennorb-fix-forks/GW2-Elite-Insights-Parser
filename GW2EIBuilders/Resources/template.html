@@ -12,6 +12,8 @@
     <script src="https://cdn.plot.ly/plotly-3.0.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.1/dist/js/bootstrap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue@2.7.14/dist/vue.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/protobufjs@7.4.0/dist/minimal/protobuf.min.js" integrity="sha256-/1vO/saRnRH6FOzDoAe5RMyLgPBmbB8OhinH2vT7qyc=" crossorigin="anonymous"></script>
+    <script><!--${protoDecompressor}--></script>
     <!--${CompressionRequire}-->
     <!--${CompressionUtils}-->
     <script>
@@ -34,15 +36,72 @@
         initTheme();
     </script>
     <script>
-        var _logData = '${logDataJson}';
-        var logData = _logData;
+        var logData = '${logDataJson}', graphData, healingStatsExtension, barrierStatsExtension, crData;
         if (window.pako) {
-            logData = JSON.parse(new TextDecoder("utf-8").decode(pako.inflate(base64DecToArr(logData))))
+            logData = JSON.parse(new TextDecoder("utf-8").decode(pako.inflate(base64DecToArr(logData))));
         }
-        var graphData = logData.graphData;
-        var healingStatsExtension = logData.healingStatsExtension;
-        var barrierStatsExtension = logData.barrierStatsExtension;
-        var crData = logData.crData;
+
+        const proot = protobuf.roots.default;
+        proot.GW2EIBuilders.Protobuf.EXT.HealingStats.Int32L.toObject = function(m, o) {
+            return m.__inner || [];
+        };
+        proot.GW2EIBuilders.Protobuf.EXT.HealingStats.Int32LL.toObject = function(m, o) {
+            const r = [];
+            if(m.__inner) for(const n of m.__inner) if(n.__inner) r.push(n.__inner);
+            return r;
+        };
+        proot.GW2EIBuilders.Protobuf.EXT.HealingStats.PlayerDetails.HealingDistributionL.toObject = function(m, o) {
+            const r = [];
+            for (const n of m.__inner) {
+                r.push(proot.GW2EIBuilders.Protobuf.EXT.HealingStats.PlayerDetails.HealingDistribution.toObject(n, o));
+            }
+            return r;
+        };
+
+        proot.GW2EIBuilders.Protobuf.EXT.HealingStats.PlayerDetails.HealingDistributionItem.toObject = function(m, o) {
+            return [
+                m.__isIndirect                  ||  false,
+                m.__skillId                     ||  0,
+                m.__totalHealing                ||  0,
+                m.__minHealing                  ||  0,
+                m.__maxHealing                  ||  0,
+                m.__numberOfCasts               ||  0,
+                m.__timeWasted                  ||  0,
+                m.__timeSaved                   ||  0,
+                m.__hits                        ||  0,
+                m.__timeSpentCasting            ||  0,
+                m.__totaldownedhealing          ||  0,
+                m.__minTimeSpentCasting         ||  0,
+                m.__maxTimeSpentCasting         ||  0,
+                m.__timeSpentCastingNoInterrupt ||  0,
+                m.__numberOfCastNoInterrupt     ||  0,
+            ]
+        };
+
+        var dataResolverPromise = new Promise(function(resolve, reject) {
+            var req = new XMLHttpRequest();
+            req.responseType = 'arraybuffer';
+            req.onload = function fileLoaded(e) {
+                var extData = new Uint8Array(e.target.response);
+
+                var ProtoRoot = proot.GW2EIBuilders.Protobuf.EXT.HealingStats.HealingStats;
+                extData = ProtoRoot.decode(extData);
+                extData = ProtoRoot.toObject(extData);
+
+                logData.healingStatsExtension = extData;
+
+
+                graphData = logData.graphData;
+                healingStatsExtension = logData.healingStatsExtension;
+                barrierStatsExtension = logData.barrierStatsExtension;
+                crData = logData.crData;
+
+
+                resolve();
+            }
+            req.open('GET', "data:application/octet;base64," + '${logDataProtobuf}');
+            req.send();
+        });
     </script>
     <!--${Js}-->
     <!--${CombatReplayJS}-->
