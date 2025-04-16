@@ -1,0 +1,16 @@
+{
+	"name": "ei-resource-compiler",
+	"description": "EI Resource compiler, only currently used for new ProtoBuf decoder compilation.",
+	"authors": "Rennorb",
+	"version": "0.0.1",
+	"scripts": {
+		"compile": "pbjs -t static-module -w closure --es6 --keep-case --no-create --no-encode --no-verify --no-beautify --no-comments --no-service --no-delimited -l \\\"\\\" -p ../../ProtobufModels ../../ProtobufModels/EXTHealingStats.proto | replace --search=\"export const GW2EIBuilders = \" --newval=\"\" | babel --no-babelrc --plugins=./babel-strip-proto-decoder.js | uglifyjs -m -c > ../logData.proto.min.js"
+	},
+	"devDependencies": {
+		"@babel/cli": "^7.27.0",
+		"@babel/core": "^7.26.10",
+		"@stdlib/string-replace-cli": "^0.2.2",
+		"protobufjs-cli": "^1.1.3",
+		"uglify-js": "^3.19.3"
+	}
+}

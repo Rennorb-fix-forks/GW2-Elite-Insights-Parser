@@ -1,33 +1,33 @@
 @echo off
-setlocal
+setlocal EnableDelayedExpansion
 pushd "%~dp0"
 
-SET ROOT_PB=EXTHealingStats.proto
-:: NOTE(Rennorb): It's arbitrary that one is a path and the other one is global.
-SET PROTOC=G:\privat\programms\protoc\bin\protoc.exe
-
-IF NOT EXIST "%PROTOC%" (
-    ECHO "%PROTOC%" does not exist, make sure this points to a protoc binary.
-    EXIT /B 1
+WHERE protoc >nul 2>nul
+IF %ERRORLEVEL% NEQ 0 (
+    SET MISSING=protoc
+    GOTO ERROR
 )
 
 WHERE npm >nul 2>nul
 IF %ERRORLEVEL% NEQ 0 (
-    ECHO "npm" does not exist within the path, make sure you have it installed.
-    EXIT /B 1
-)
-
-call npm list -g protobufjs-cli >nul 2>nul
-IF %ERRORLEVEL% NEQ 0 (
-    ECHO "protobufjs-cli" is not gloablly installed into node, make sure you install it by calling "npm install -g protobufjs-cli".
-    EXIT /B 1
+    SET MISSING=npm
+    GOTO ERROR
 )
 
 ECHO compiling .proto to .cs ...
-call "%PROTOC%" --csharp_out=. -I=. %ROOT_PB%
+call protoc --csharp_out=. -I=. EXTHealingStats.proto
 
-ECHO compiling .proto to .json ...
-call pbjs -t static-module -w closure --es6 ^
-    --keep-case --no-create --no-encode --no-verify --no-beautify --no-comments --no-service --no-delimited -l "" ^
-    -p . -o ../Resources/logData.proto.js %ROOT_PB%
-::TODO(Rennorb) auto-strip 'export const GW2EIBuilders = ' from the result
+ECHO compiling .proto to .js ...
+pushd ..\Resources\_compiler
+call npm install --no-fund --no-audit
+call npm run compile
+
+ECHO OK.
+
+
+EXIT /B
+
+:ERROR
+ECHO.
+ECHO [WARN] "!MISSING!" does not exist within the path, make sure you have it installed and accessible. .proto files will not be recompiled!
+ECHO.

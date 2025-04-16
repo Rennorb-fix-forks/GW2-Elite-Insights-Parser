@@ -380,21 +380,7 @@ namespace GW2EIBuilders.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to /*eslint-disable block-scoped-var, id-length, no-control-regex, no-magic-numbers, no-prototype-builtins, no-redeclare, no-shadow, no-var, sort-vars*/
-        ///(function($protobuf) {
-        ///    &quot;use strict&quot;;
-        ///
-        ///    const $Reader = $protobuf.Reader, $util = $protobuf.util;
-        ///    
-        ///    const $root = $protobuf.roots[&quot;default&quot;] || ($protobuf.roots[&quot;default&quot;] = {});
-        ///    
-        ///    export const GW2EIBuilders = $root.GW2EIBuilders = (() =&gt; {
-        ///    
-        ///        const GW2EIBuilders = {};
-        ///    
-        ///        GW2EIBuilders.Protobuf = (function() {
-        ///    
-        ///      [rest of string was truncated]&quot;;.
+        ///   Looks up a localized string similar to (t=&gt;{let s=t.Reader,r=t.util,l=t.roots.default||(t.roots.default={});function n(t){if(this.healingPhases=[],this.playerHealingDetails=[],this.playerHealingCharts=[],t)for(var n=Object.keys(t),e=0;e&lt;n.length;++e)null!=t[n[e]]&amp;&amp;(this[n[e]]=t[n[e]])}function e(t){if(this.outgoingHealingStats=[],this.outgoingHealingStatsTargets=[],this.incomingHealingStats=[],t)for(var n=Object.keys(t),e=0;e&lt;n.length;++e)null!=t[n[e]]&amp;&amp;(this[n[e]]=t[n[e]])}function i(t){if(this.healingDistributions=[],this.healingDistributionsT [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string proto_js {
             get {

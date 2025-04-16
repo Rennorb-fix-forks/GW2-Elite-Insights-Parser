@@ -63,4 +63,8 @@
         </EmbeddedResource>
     </ItemGroup>
 
+    <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
+      <Exec Command="./ProtobufModels/compile.bat" />
+    </Target>
+
 </Project>
